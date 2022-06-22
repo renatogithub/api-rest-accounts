@@ -1,0 +1,9 @@
+spring:
+  application:
+    name: api-rest-accounts
+  cloud:
+    config:
+      enabled: true
+      uri: http://localhost:8888
+      username: prueba
+      password: 123456
