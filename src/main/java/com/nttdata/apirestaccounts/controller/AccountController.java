@@ -1,3 +1,11 @@
+/**
+ * Controller that receives the requests
+ *
+ * @author Renato Ponce
+ * @version 1.0
+ * @since 2022-06-24
+ */
+
 package com.nttdata.apirestaccounts.controller;
 
 import com.nttdata.apirestaccounts.model.Account;
@@ -34,7 +42,16 @@ public class AccountController {
                 .body(fxAccounts));
     }
 
-    @GetMapping("/{accountNumber}")
+    @GetMapping("/{id}")
+    public Mono<ResponseEntity<Account>> getById(@PathVariable("id") String id) {
+        return service.getById(id)
+                .map(p -> ResponseEntity.ok()
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .body(p)
+                ); //Mono<ResponseEntity<Account>>
+    }
+
+    @GetMapping("/accountNumber/{accountNumber}")
     public Mono<ResponseEntity<Account>> getByAccountNumber(@PathVariable("accountNumber") String accountNumber) {
         return service.getByAccountNumber(accountNumber)
                 .map(p -> ResponseEntity.ok()
@@ -46,68 +63,11 @@ public class AccountController {
     @PostMapping
     public Mono<ResponseEntity<Account>> register(@RequestBody Account account, final ServerHttpRequest req) {
 
-/*        Mono<Account> monoAccount = service.getByCustomer_v2(account.getCustomer().getId());
-
-        monoAccount.doOnNext(x -> log.info("a:" + x.toString())).subscribe();*/
-
-        log.info("trayendo1:" + account);
-        log.info("trayendo2:" + account.getCustomer());
-        log.info("trayendo3:" + account.getCustomer().toString());
-
         return service.create(account)
-                .map(p->ResponseEntity.created(URI.create(req.getURI().toString().concat("/").concat(p.getId())))
+                .map(ac -> ResponseEntity.created(URI.create(req.getURI().toString().concat("/").concat(ac.getId())))
                         .contentType(MediaType.APPLICATION_JSON)
-                        .body(p)
+                        .body(ac)
                 );
-
-        /*return service.getByCustomer_v2(account.getCustomer().getId(),account.getAccountType())
-                .doOnNext(a -> log.info("probando1:" + a))
-                .doOnNext(a->log.info("probando2:" + a.getAccountType().getCode()))
-                //.doOnNext(a->log.info("probando3:" + a.getCustomer().toString()))
-                //.filter(a -> a.getCustomer().getCustomerType().equals("P"))
-                //.filter(a -> a.getAccountType().getCode().equals("CA"))
-                //.doOnNext(a->System.out.println("aa1:" + a.toString()))
-                //.switchIfEmpty(Mono.defer(()->service.create(account)))
-                //.filter(a -> a.getAccountType().getCode().equals("CC"))
-                //.doOnNext(a->System.out.println("aa2:" + a.toString()))
-                //.switchIfEmpty(Mono.defer(()->service.create(account)))
-                //.filter(a -> a.getAccountType().getCode().equals("PF"))
-                //.doOnNext(a->System.out.println("aa3:" + a.toString()))
-                .switchIfEmpty(service.create(account))
-                //service.validateSaveAccount(account);
-                .map(a -> ResponseEntity.created(URI.create(req.getURI().toString().concat("/").concat(a.getId())))
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .body(a));*/
-
-
-//                .filter(a -> a.getAccountType().equals("CC"))
-        //               .filter(a -> a.getAccountType().equals("PF"))
-
-/*        return monoAccount.flatMap(a -> {
-                    if (a.getCustomer().getCustomerType().equals("P") && a.getId() != null) {
-                        return service.create(account);
-                    }
-                }).flatMap(a-)*/
-
-/*        Mono<CustomerDTO> monoCustomerDTO = service.getByCustomerData(account.getCustomer().getId());
-
-        monoCustomerDTO.doOnNext(cust -> {
-            if (cust.getCustomerType().equals("CA") || cust.getCustomerType().equals("CC") || cust.getCustomerType().equals("PF")) {
-
-            }
-        });*/
-
-        /*return service.getByCustomer_v2(account.getCustomer().getId())
-                .switchIfEmpty(service.create(account))
-                .map(a -> ResponseEntity.created(URI.create(req.getURI().toString().concat("/").concat(a.getId())))
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .body(a));*/
-
-/*        return service.getByCustomer_v2(account.getCustomer().getId())
-                .switchIfEmpty(service.create(account))
-                .map(a -> ResponseEntity.created(URI.create(req.getURI().toString().concat("/").concat(a.getId())))
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .body(a));*/
     }
 
     @PutMapping("/{id}")

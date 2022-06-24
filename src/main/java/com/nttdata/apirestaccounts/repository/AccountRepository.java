@@ -1,3 +1,11 @@
+/**
+ * Repository that stores Account information
+ *
+ * @author Renato Ponce
+ * @version 1.0
+ * @since 2022-06-24
+ */
+
 package com.nttdata.apirestaccounts.repository;
 
 import com.nttdata.apirestaccounts.model.Account;
@@ -9,7 +17,7 @@ public interface AccountRepository extends ReactiveMongoRepository<Account, Stri
 
     Mono<Account> findByAccountNumber(String accountNumber);
 
-    Mono<Account> findByCustomer_Id(String customerId);
+    Flux<Account> findByCustomer_Id(String customerId);
 
     Mono<Account> findByCustomer_IdAndAccountType_Code(String customerId, String codeAccountType);
 }

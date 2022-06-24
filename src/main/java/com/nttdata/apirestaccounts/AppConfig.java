@@ -1,3 +1,11 @@
+/**
+ * App Config WebClient
+ *
+ * @author Renato Ponce
+ * @version 1.0
+ * @since 2022-06-24
+ */
+
 package com.nttdata.apirestaccounts;
 
 import org.springframework.beans.factory.annotation.Value;

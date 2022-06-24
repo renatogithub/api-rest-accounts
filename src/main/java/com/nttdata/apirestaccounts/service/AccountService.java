@@ -1,8 +1,14 @@
+/**
+ * Interface Service Account
+ *
+ * @author Renato Ponce
+ * @version 1.0
+ * @since 2022-06-24
+ */
+
 package com.nttdata.apirestaccounts.service;
 
-import com.nttdata.apirestaccounts.dto.CustomerDTO;
 import com.nttdata.apirestaccounts.model.Account;
-import com.nttdata.apirestaccounts.model.AccountType;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
@@ -17,11 +23,5 @@ public interface AccountService {
 
     Mono<Account> getByAccountNumber(String accountNumber);
 
-    Mono<Account> getByAccountCustomer(String customerId);
 
-    Mono<Account> getByAccountCustomerAccountType(String customerId, String accountType);
-
-    Mono<Account> getByCustomer_v2(String customerId, AccountType accountType);
-
-    Mono<CustomerDTO> getByCustomerData(String customerId);
 }
